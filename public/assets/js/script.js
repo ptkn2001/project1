@@ -7,11 +7,13 @@ const headers = {
 
 //Google API call back function
 function initMap() {
+    const address = document.querySelector('#restaurant-address').innerHTML;
+
+    if (!address) { return };
+
     let latitude = 0;
     let longitude = 0;
     let geocoder = new google.maps.Geocoder();
-
-    const address = document.querySelector('#restaurant-address').innerHTML;
 
     geocoder.geocode({ 'address': address }, (results, status) => {
 
@@ -76,7 +78,6 @@ const ResetRestaurantInfo = () => {
 //Function to reset the restaurant details section.
 const ResetRestaurantDetailsSection = () => {
     restaurantDetailsEl.empty();
-    restaurantDetailsEl.show();
 }
 
 //Event handler function for the user's input form.
@@ -96,10 +97,8 @@ const formSubmitHandler = event => {
     localStorage.setItem("cuisine", cuisine);
 
     if (searchby.value === "zipcode") {
-        console.log("GetResturantByNameAPI");
         GetResturantByNameAPI(restaurantName, zip, cuisine)
     } else {
-        console.log("GetResturantByGeoAPI");
         GetResturantByGeoAPI(lat, lng, distance, cuisine)
     };
 }
@@ -154,12 +153,6 @@ const ShowRestaurantInfo = restaurants => {
 
         //Add event listener when user clicks on a restaurant row
         restaurantDisplayEl.on('click', '.restaurant-row', event => {
-            $('.restaurant-row').each((a, b) => {
-                $(b).click(function() {
-                    $('.restaurant-row').css('background', '#ffffff');
-                    $(this).css('background', '#008080');
-                });
-            });
             var restaurantIndex = event.currentTarget.attributes['restaurantIndex'].value;
             restaurantClickHandler(restaurants[restaurantIndex]);
         });
