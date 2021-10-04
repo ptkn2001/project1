@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="icon" href="assets/images/icons8-meal-48.png">
+    <title>Find My Plate</title>
+</head>
+
+<body>
+    <header class="header-section w3-teal">
+        <h1>Find My Plate</h1>
+    </header>
+
+    <section id="search" class="search-section">
+        <form id="user-form">
+            <div class="form-item">
+                <label for="searchby">Search By:</label>
+                <select id="searchby" name="searchby">
+                                        <option value="userlocation">User Location</option>
+                                        <option value="zipcode">Zip Code</option>
+                                    </select>
+            </div>
+            <div id="byzipcode" class="form-item">
+                <label class="form-label" for="zip">Zip Code(required):</label>
+                <input name="zip" id="zip" type="text" autofocus="true" class="form-input" />
+                <label class="form-label" for="restaurant-name">Restaurant Name(optional):</label>
+                <input name="restaurant-name" id="restaurant-name" type="text" autofocus="true" class="form-input" />
+            </div>
+            <div id="bylocation" class="form-item">
+                <label for="distance">Choose distance:</label>
+                <select id="distance" name="distance">
+                                        <option value="5">5 miles</option>
+                                        <option value="10">10 miles</option>
+                                        <option value="15">15 miles</option>
+                                    </select>
+            </div>
+            <div class="form-item">
+                <label class="form-label" for="cuisine">Cuisine(optional):</label>
+                <input name="cuisine" id="cuisine" type="text" autofocus="true" class="form-input" placeholder="italian, chinese etc..." />
+            </div>
+            <div class="form-item">
+                <button type="submit" class="btn w3-round-large w3-teal">Search</button>
+            </div>
+        </form>
+    </section>
+
+    <section id="results" class="results-section">
+        <div id="search-results" class="w3-container w3-pale-yellow w3-cell-row">
+            <div class="w3-container w3-table w3-half">
+                <table id="restaurant-info-tbl">
+                    <thead id="restaurant-header">
+                    </thead>
+                    <tbody id="restaurant-display">
+                    </tbody>
+                </table>
+            </div>
+            <div class="w3-container w3-half">
+                <div id="restaurant-details" class="w3-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/script.js "></script>
+
+</body>
+
+</html>
