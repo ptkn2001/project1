@@ -27,7 +27,7 @@ function initMap() {
             //Get the map around the restaurant location.
             let map = new google.maps.Map(document.getElementById("restaurant-map"), {
                 center: eventPosition,
-                zoom: 8,
+                zoom: 16,
                 mapId: '6dbf17a103bba713'
             });
 
@@ -35,7 +35,7 @@ function initMap() {
             new google.maps.Marker({
                 position: eventPosition,
                 map,
-                title: 'Event location'
+                title: 'restaurant location'
             });
         }
     });
@@ -179,9 +179,12 @@ const restaurantClickHandler = restaurant => {
     var lat = restaurant.geo.lat;
     var lng = restaurant.geo.lon;
 
-    restaurantDetailsEl.append(`<p>Name: ${restaurantName}</p>`);
-    restaurantDetailsEl.append(`<p id = "restaurant-address">Address: ${restaurantAddress}</p>`);
-    restaurantDetailsEl.append(`<p>Phone: ${restaurantPhoneNumber}</p>`);
+    restaurantDetailsEl.append(`<label>Name:</label>`);
+    restaurantDetailsEl.append(`<p id = "restaurant-name">${restaurantName}</p>`);
+    restaurantDetailsEl.append(`<label>Address:</label>`);
+    restaurantDetailsEl.append(`<p id = "restaurant-address">${restaurantAddress}</p>`);
+    restaurantDetailsEl.append(`<label>Phone:</label>`);
+    restaurantDetailsEl.append(`<p id = "restaurant-phone">${restaurantPhoneNumber}</p>`);
     if (restaurantHours) {
         restaurantDetailsEl.append(`<p>Hours: ${restaurantHours}</p>`);
     }
@@ -195,20 +198,12 @@ const restaurantClickHandler = restaurant => {
     var googleApiScript = document.createElement("script");
     googleApiScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA51EA8ocFj-7sqx78LGYN4BywXlsdyrsQ&map_ids=6dbf17a103bba713&callback=initMap";
     restaurantDetailsEl.append(googleApiScript);
-
-    // var detailsButtonEl = restaurantDetailsEl.children('#view-map');
-
-    // //Open the map and show restaurant location with marker on Google map using Google map api if user click on "View Map" button.
-    // detailsButtonEl.on('click', event => {
-    //     var searchUrl = "index-search-map.html?lat=" + lat + "&lng=" + lng;
-    //     window.open(searchUrl);
-    // })
 }
 
 
 //get resturant by name API
 const GetResturantByNameAPI = (restaurantName, zip, cuisine) => {
-    var requestUrl = "https://api.documenu.com/v2/restaurants/search/fields?zip_code=" + zip + "&exact=false" + "&size=15&page=1";
+    var requestUrl = "https://api.documenu.com/v2/restaurants/search/fields?zip_code=" + zip + "&exact=false" + "&size=30&page=1";
     if (restaurantName) {
         requestUrl += "&restaurant_name=" + restaurantName;
     }
@@ -222,7 +217,7 @@ const GetResturantByNameAPI = (restaurantName, zip, cuisine) => {
 //get resturant by Geo API
 const GetResturantByGeoAPI = (lat, lng, distance, cuisine) => {
     //Build the request Url for the rapid restaurant search api.
-    var requestUrl = "https://documenu.p.rapidapi.com/restaurants/search/geo?lat=" + lat + "&lon=" + lng + "&size=15&page=1";
+    var requestUrl = "https://documenu.p.rapidapi.com/restaurants/search/geo?lat=" + lat + "&lon=" + lng + "&size=30&page=1";
 
     //If the user select the distance in the user's form, we filter based on the distance selected.
     if (distance) {
