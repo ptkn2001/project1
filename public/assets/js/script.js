@@ -5,6 +5,42 @@ const headers = {
     "x-rapidapi-host": "documenu.p.rapidapi.com"
 };
 
+//Google API call back function
+function initMap() {
+    let latitude = 0;
+    let longitude = 0;
+    let geocoder = new google.maps.Geocoder();
+
+    const address = document.querySelector('#restaurant-address').innerHTML;
+
+    geocoder.geocode({ 'address': address }, (results, status) => {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            latitude = results[0].geometry.location.lat();
+            longitude = results[0].geometry.location.lng();
+
+            let eventPosition = {
+                lat: latitude,
+                lng: longitude
+            };
+
+            //Get the map around the restaurant location.
+            let map = new google.maps.Map(document.getElementById("restaurant-map"), {
+                center: eventPosition,
+                zoom: 8,
+                mapId: '6dbf17a103bba713'
+            });
+
+            //Draw the marker indicate the location of the restaurant on the map.
+            new google.maps.Marker({
+                position: eventPosition,
+                map,
+                title: 'Event location'
+            });
+        }
+    });
+}
+
 //Select place holder elements.
 const formEl = document.querySelector('#user-form');
 var restaurantDisplayEl = $('#restaurant-display');
@@ -132,7 +168,6 @@ const ShowRestaurantInfo = restaurants => {
 
 //Restaurant onclick event handler.
 const restaurantClickHandler = restaurant => {
-    console.log("restaurantClickHandler", restaurant)
     ResetRestaurantDetailsSection();
 
     var restaurantName = restaurant.restaurant_name;
@@ -145,7 +180,7 @@ const restaurantClickHandler = restaurant => {
     var lng = restaurant.geo.lon;
 
     restaurantDetailsEl.append(`<p>Name: ${restaurantName}</p>`);
-    restaurantDetailsEl.append(`<p>Address: ${restaurantAddress}</p>`);
+    restaurantDetailsEl.append(`<p id = "restaurant-address">Address: ${restaurantAddress}</p>`);
     restaurantDetailsEl.append(`<p>Phone: ${restaurantPhoneNumber}</p>`);
     if (restaurantHours) {
         restaurantDetailsEl.append(`<p>Hours: ${restaurantHours}</p>`);
@@ -155,15 +190,19 @@ const restaurantClickHandler = restaurant => {
         restaurantDetailsEl.append(`<p>Website: <a href="${restaurantWebsite}" target="_blank">${restaurantWebsite}</a></p>`);
     }
 
-    restaurantDetailsEl.append('<button id="view-map" class="w3-round-large w3-teal">View Map</button>');
+    restaurantDetailsEl.append('<div id="restaurant-map" style = "height: 500px;"</div>');
 
-    var detailsButtonEl = restaurantDetailsEl.children('#view-map');
+    var googleApiScript = document.createElement("script");
+    googleApiScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA51EA8ocFj-7sqx78LGYN4BywXlsdyrsQ&map_ids=6dbf17a103bba713&callback=initMap";
+    restaurantDetailsEl.append(googleApiScript);
 
-    //Open the map and show restaurant location with marker on Google map using Google map api if user click on "View Map" button.
-    detailsButtonEl.on('click', event => {
-        var searchUrl = "index-search-map.html?lat=" + lat + "&lng=" + lng;
-        window.open(searchUrl);
-    })
+    // var detailsButtonEl = restaurantDetailsEl.children('#view-map');
+
+    // //Open the map and show restaurant location with marker on Google map using Google map api if user click on "View Map" button.
+    // detailsButtonEl.on('click', event => {
+    //     var searchUrl = "index-search-map.html?lat=" + lat + "&lng=" + lng;
+    //     window.open(searchUrl);
+    // })
 }
 
 
