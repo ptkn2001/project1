@@ -210,7 +210,7 @@ const GetResturantByNameAPI = (restaurantName, zip, cuisine) => {
 //get resturant by Geo API
 const GetResturantByGeoAPI = (lat, lng, distance, cuisine) => {
     //Build the request Url for the rapid restaurant search api.
-    var requestUrl = "https://documenu.p.rapidapi.com/restaurants/search/geo?lat=" + lat + "&lon=" + lng + "&size=30&page=1";
+    var requestUrl = "https://api.documenu.com/v2/restaurants/search/geo?lat=" + lat + "&lon=" + lng + "&size=30&page=1";
 
     //If the user select the distance in the user's form, we filter based on the distance selected.
     if (distance) {
